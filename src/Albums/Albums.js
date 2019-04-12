@@ -50,5 +50,4 @@ const mapStateToProps = state => {
     return { loading, data, error};
 };
 
-const connectedAlbums = connect(mapStateToProps)(Albums);
-export {connectedAlbums as default}
+export default connect(mapStateToProps)(Albums);

@@ -24,5 +24,4 @@ const App = ({ dispatch }) => {
 
 const mapStateToProps = () => ({});
 
-const connectedApp = connect(mapStateToProps)(App);
-export { connectedApp as default };
+export default connect(mapStateToProps)(App);

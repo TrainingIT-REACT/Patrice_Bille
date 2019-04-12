@@ -5,16 +5,14 @@ import {multimediaAction} from "../_actions/multimedia.action";
 import {API_URL} from "../_constants/app.constants";
 
 /**
- *
  * @param albumId
- * @param data
+ * @param album
  * @param error
- * @param loading
- * @returns {*}
+ * @param isLoading
+ * @returns {null|*}
  * @constructor
  */
 const ViewDetail = ({ albumId, album, error, isLoading }) => {
-    console.log( album);
 
     if (!albumId || isNaN(albumId)) {
         return <div className="alert alert-danger">Invalid album id { albumId }</div>;
@@ -38,6 +36,8 @@ const ViewDetail = ({ albumId, album, error, isLoading }) => {
                 <div className="">
                     <img src={`${API_URL}/${album.cover}`} alt={album.name} className="img-fluid" />
                 </div>
+                <div className="text-dark pt-3 pb-2">{ album.name }</div>
+                <div className="text-muted">{ album.artist }</div>
             </div>
             <div className="col-8 text-left pr-0">
                 <table className="table table-striped">
@@ -81,5 +81,4 @@ const mapStateToProps = state => {
     return { loading, data, error };
 };
 
-const connectedAlbumsDetail = connect(mapStateToProps)(AlbumDetail);
-export {connectedAlbumsDetail as default}
+export default connect(mapStateToProps)(AlbumDetail);

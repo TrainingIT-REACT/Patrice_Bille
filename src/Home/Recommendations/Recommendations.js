@@ -23,9 +23,9 @@ const Recommendations = ({ dispatch, recommendations, albums }) => {
         <Fragment>
             <section>
                 <div className="container">
-                    <h2 className="pb-4">Top Artists</h2>
+                    <h2 className="pb-4">Top Songs</h2>
 
-                    { !showRecommendations && <div className="text-muted text-center">Loading top artist list</div> }
+                    { !showRecommendations && <div className="text-muted text-center">Loading songs list</div> }
 
                     <div className="row">
                         { showRecommendations && recommendations.data.map(item => {
@@ -70,5 +70,4 @@ const mapStateToProps = state => {
     };
 };
 
-const connectedRecommendations = connect(mapStateToProps)(Recommendations);
-export {connectedRecommendations as default}
+export default connect(mapStateToProps)(Recommendations);

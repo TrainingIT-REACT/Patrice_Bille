@@ -6,7 +6,6 @@ import Footer from "../Layout/Footer";
 import Profile from "../Profile/Profile";
 import Albums from "../Albums/Albums";
 import AlbumDetail from "../Albums/AlbumDetail";
-import AlbumSongs from "../Albums/AlbumSongs";
 import NoMatch from "../Layout/NoMatch";
 
 const RestrictedArea = () => {
@@ -20,7 +19,6 @@ const RestrictedArea = () => {
                     <Route exact path="/me" component={Profile}/>
                     <Route exact path="/albums" component={Albums}/>
                     <Route exaxt path="/album/:albumId" component={AlbumDetail}/>
-                    <Route exact path="/song:/songId" component={AlbumSongs}/>
                     <Route component={NoMatch}/>
                 </Switch>
             </main>

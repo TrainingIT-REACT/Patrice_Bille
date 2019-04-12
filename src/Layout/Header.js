@@ -44,5 +44,4 @@ const mapStateToProps = state => {
     return { loggedIn };
 };
 
-const connectedHeader = connect(mapStateToProps)(Header);
-export {connectedHeader as default}
+export default connect(mapStateToProps)(Header);

@@ -9,6 +9,7 @@ const login = (email, password) => {
     return new Promise((resolve, reject) => {
         const _fakeCredentials = {
             email: "admin@admin.com",
+            user: "Administrator",
             password: '12345678',
             token: `${_token()}.${_token()}`
         };

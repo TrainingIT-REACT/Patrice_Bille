@@ -8,7 +8,7 @@ const userReducer = (state = {}, action) => {
             };
         case userTypes.FETCH_USER_SUCCESS:
             return {
-                user: action.users
+                user: action.user
             };
         case userTypes.FETCH_USER_FAILURE:
             return {
