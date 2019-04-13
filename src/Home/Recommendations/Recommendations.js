@@ -19,6 +19,10 @@ const Recommendations = ({ dispatch, recommendations, albums }) => {
         return function clear() { };
     }, []);
 
+    const play = (payload) => {
+        dispatch(multimediaAction.addSounds([{ url: payload.audio, title: payload.name }]));
+    };
+
     return (
         <Fragment>
             <section>
@@ -29,7 +33,7 @@ const Recommendations = ({ dispatch, recommendations, albums }) => {
 
                     <div className="row">
                         { showRecommendations && recommendations.data.map(item => {
-                            return <TopArtist item={item} key={item.id} />;
+                            return <TopArtist item={item} key={item.id} play={play} />;
                         }) }
                     </div>
                 </div>

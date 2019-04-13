@@ -53,7 +53,7 @@
     { "id": 32, "name": "Stand and Deliver", "audio": "/music/funky_energy_loop.mp3", "seconds": 203, "albumId": 7 },
     { "id": 33, "name": "Straight From The Heart", "audio": "/music/funky_energy_loop.mp3", "seconds": 203, "albumId": 7 },
     { "id": 34, "name": "Summer Of '69", "audio": "/music/funky_energy_loop.mp3", "seconds": 203, "albumId": 7 },
-    { "id": 35, "name": "Desire", "audio": "/music/funky_energy_loop.mp3", "seconds": 203, "albumId": 7 },
+    { "id": 35, "name": "Desire", "audio": "/music/john-newman-love-me-again-official-music-video.mp3", "seconds": 203, "albumId": 7 },
     { "id": 36, "name": "Two", "audio": "/music/funky_energy_loop.mp3", "seconds": 203, "albumId": 8 },
     { "id": 37, "name": "New York, New York", "audio": "/music/funky_energy_loop.mp3", "seconds": 203, "albumId": 8 },
     { "id": 38, "name": "Magick", "audio": "/music/funky_energy_loop.mp3", "seconds": 203, "albumId": 8 },

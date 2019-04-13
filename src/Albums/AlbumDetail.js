@@ -5,6 +5,7 @@ import {multimediaAction} from "../_actions/multimedia.action";
 import {API_URL} from "../_constants/app.constants";
 
 /**
+ * @param playCallback
  * @param albumId
  * @param album
  * @param error
@@ -12,8 +13,7 @@ import {API_URL} from "../_constants/app.constants";
  * @returns {null|*}
  * @constructor
  */
-const ViewDetail = ({ albumId, album, error, isLoading }) => {
-
+const ViewDetail = ({ playCallback, albumId, album, error, isLoading }) => {
     if (!albumId || isNaN(albumId)) {
         return <div className="alert alert-danger">Invalid album id { albumId }</div>;
     }
@@ -30,6 +30,20 @@ const ViewDetail = ({ albumId, album, error, isLoading }) => {
         return null;
     }
 
+    /**
+     * @param event
+     * @param song
+     */
+    const addSound = (event, song) => {
+        event.preventDefault();
+        playCallback(song);
+    };
+
+    const playAlbum = (event) => {
+        event.preventDefault();
+        playCallback(album.songs);
+    };
+
     return (
         <div className="row">
             <div className="col-4 text-center">
@@ -38,6 +52,9 @@ const ViewDetail = ({ albumId, album, error, isLoading }) => {
                 </div>
                 <div className="text-dark pt-3 pb-2">{ album.name }</div>
                 <div className="text-muted">{ album.artist }</div>
+                <p className="pt-3">
+                    <button type="button" className="btn btn-success btn-lg" onClick={playAlbum}>Play album</button>
+                </p>
             </div>
             <div className="col-8 text-left pr-0">
                 <table className="table table-striped">
@@ -45,7 +62,9 @@ const ViewDetail = ({ albumId, album, error, isLoading }) => {
                     { album && album.songs && album.songs.map(song => {
                         return (
                             <tr key={song.id}>
-                                <td className="text-left"  scope="row">{song.name}</td>
+                                <td className="text-left" >
+                                    <a className="text-dark" href="#" onClick={e => addSound(e, song)}>{song.name}</a>
+                                </td>
                                 <td className="text-right text-muted">{formatSecondsTime(song.seconds)}</td>
                             </tr>
                         );
@@ -66,10 +85,20 @@ const AlbumDetail = ({ match, dispatch, data, loading, error }) => {
         return function clear() {};
     }, []);
 
+    const play = (payload) => {
+        if (Array.isArray(payload)) {
+            const songs = payload.map(song => ({ url: song.audio, title: song.name }));
+            dispatch(multimediaAction.addSounds(songs));
+            return;
+        }
+
+        dispatch(multimediaAction.addSounds([{ url: payload.audio, title: payload.name }]));
+    };
+
     return (
         <section>
             <div className="container">
-                <ViewDetail albumId={albumId} album={data} error={error} isLoading={loading} />
+                <ViewDetail playCallback={play} albumId={albumId} album={data} error={error} isLoading={loading} />
             </div>
         </section>
     );

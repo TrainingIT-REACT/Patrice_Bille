@@ -6,6 +6,7 @@ import PrivateRoute from "../Auth/PrivateRoute";
 import LoginPage from "../Auth/Login/LoginPage";
 import {notifyActions} from "../_actions/notify.actions";
 import {RestrictedArea} from "../PrivatePage";
+import ErrorBoundary from "../Errors/ErrorBoundary";
 
 const App = ({ dispatch }) => {
     history.listen(() => {
@@ -14,10 +15,12 @@ const App = ({ dispatch }) => {
 
     return (
         <Router history={history}>
-            <Switch>
-                <Route exact path="/login" component={LoginPage} />
-                <PrivateRoute path="/" component={RestrictedArea} />
-            </Switch>
+            <ErrorBoundary>
+                <Switch>
+                    <Route exact path="/login" component={LoginPage} />
+                    <PrivateRoute path="/" component={RestrictedArea} />
+                </Switch>
+            </ErrorBoundary>
         </Router>
     );
 };

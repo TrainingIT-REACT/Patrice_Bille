@@ -2,6 +2,7 @@ import albumsTypes from "../_types/albumsTypes";
 import albumDetailTypes from "../_types/albumDetailTypes";
 import {multimediaService} from "../_services/multimediaService";
 import {notifyActions} from "./notify.actions";
+import playerTypes from "../_types/playerTypes";
 import recommendationsTypes from "../_types/recommendationsTypes";
 import {arrayShuffle} from "../_helpers";
 
@@ -103,12 +104,24 @@ const listRecommendations = () => {
 };
 
 /**
- *
- * @type {{listAlbums: (function(*=, *=): Function), listRecommendations: (function(): Function), albumDetail: (function(*): Function), listBestAlbums: (function(): Function)}}
+ * @param items
+ * @returns {Function}
+ */
+const addSounds = (items = []) => {
+    const successAction = (playlist) => ({ type: playerTypes.PLAYER_SUCCESS, playlist });
+
+    return dispatch => {
+        dispatch(successAction(items));
+    };
+};
+
+/**
+ * @type {{listAlbums: (function(*=, *=): Function), listRecommendations: (function(): Function), albumDetail: (function(*=): Function), listBestAlbums: (function(): Function), addSounds: (function(*=): Function)}}
  */
 export const multimediaAction = {
     listAlbums,
     listBestAlbums,
     albumDetail,
     listRecommendations,
+    addSounds
 };

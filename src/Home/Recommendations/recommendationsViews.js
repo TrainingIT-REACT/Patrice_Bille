@@ -2,16 +2,31 @@ import React from "react";
 import {API_URL} from "../../_constants/app.constants";
 import {NavLink} from "react-router-dom";
 
-const TopArtist = ({ item }) => {
+const TopArtist = ({ play, item }) => {
+    /**
+     * @param event
+     * @param item
+     */
+    const playSong = (event, item) => {
+        event.preventDefault();
+        play(item);
+    };
+
     return (
         <div className="col-4 col-lg-2">
             <div className="card border-0">
-                <img className="card-img-top rounded-circle"
-                     alt={item.song.name}
-                     src={`${API_URL}/${item.album.cover}`} />
+                <NavLink to="#" onClick={e => playSong(e, item.song)}>
+                    <img className="card-img-top rounded-circle"
+                         alt={item.song.name}
+                         src={`${API_URL}/${item.album.cover}`} />
+                </NavLink>
+
                 <div className="card-body">
                     <div className="card-title">
-                        <a href="#" className="text-dark font-weight-bold" style={{fontSize: '14px'}}>{item.song.name}</a>
+                        <NavLink
+                            className="text-dark font-weight-bold"
+                            style={{fontSize: '14px'}}
+                            onClick={e => playSong(e, item.song)} to="#">{item.song.name}</NavLink>
                     </div>
                     <p className="card-text text-muted" style={{fontSize: '14px'}}>{item.album.artist}</p>
                 </div>
