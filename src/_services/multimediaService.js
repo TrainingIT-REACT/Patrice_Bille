@@ -1,4 +1,5 @@
 import {API_QUERY_LIMIT, API_URL} from "../_constants/app.constants";
+import {getUniqueItems} from "../_helpers";
 
 /**
  * @param paths
@@ -57,6 +58,47 @@ const fetchMostVotedAlbums = () => {
 };
 
 /**
+ * @param text
+ * @param type
+ * @returns {Promise<any | Response>|Promise<any[] | Response[]>|Promise<*[] | Response>}
+ */
+const doSearch = (text, type = 'default') => {
+    if (type === 'songs') {
+        const _songsUrl = _buildApiUrl(['songs'], `q=${text}&_limit=20`);
+        return fetch(_songsUrl).then(res => res.json());
+    } else if (type === 'albums') {
+        const _albumsUrl = _buildApiUrl(['albums'], `q=${text}&_limit=15`);
+        return fetch(_albumsUrl).then(res => res.json());
+    } else if (type === 'artists') {
+        const _artistUrl = _buildApiUrl(['albums'], `artist_like=${text}&_limit=8`);
+        return fetch(_artistUrl).then(async (res) => {
+            const data = await res.json();
+            return getUniqueItems(data, 'artist');
+        });
+    }
+
+    const songsUrl = _buildApiUrl(['songs'], `q=${text}&_limit=10`);
+    const artistUrl = _buildApiUrl(['albums'], `artist_like=${text}&_limit=8`);
+    const albumsUrl = _buildApiUrl(['albums'], `q=${text}&_limit=8`);
+
+    return Promise.all([
+        fetch(songsUrl),
+        fetch(artistUrl),
+        fetch(albumsUrl),
+    ]).then(async ([songs, artists, albums]) => {
+        const waitSongs = await songs.json();
+        const waitArtists = await artists.json();
+        const waitAlbums = await albums.json();
+
+        return [
+            waitSongs,
+            getUniqueItems(waitArtists, 'artist'),
+            waitAlbums
+        ];
+    });
+};
+
+/**
  * @returns {Promise<any>}
  */
 const fetchMostVotedSongs = () => {
@@ -72,4 +114,5 @@ export const multimediaService = {
     songDetail: fetchSong,
     mostVotedAlbums: fetchMostVotedAlbums,
     mostVotedSongs: fetchMostVotedSongs,
+    search: doSearch
 };

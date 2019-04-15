@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { NavLink } from "react-router-dom";
 import {userActions} from "../_actions/user.actions";
 import {connect} from "react-redux";
@@ -13,7 +13,10 @@ const onMediaEvent = {
     }
 };
 
+const SearchBar = React.lazy(() => import(/* webpackChunkName: "search-bar" */ '../Search/SearchBar'));
+
 const Header = ({ dispatch, playlist }) => {
+    const [hideSearchBar, setHideSearchBar] = useState(true);
 
     useEffect(() => {
         return function clear() {};
@@ -23,9 +26,21 @@ const Header = ({ dispatch, playlist }) => {
         dispatch(userActions.logout());
     };
 
+    const hideSearchCallback = (value) => {
+        setHideSearchBar(value);
+    };
+
+    const openSearchBar = (event) => {
+        event.preventDefault();
+        setHideSearchBar(false);
+    };
+
     return (
         <header className="fixed-top bg-dark pb-2 pt-1 px-2">
             <div className="row flex-nowrap justify-content-between align-items-center">
+                <Suspense fallback="">
+                    <SearchBar hide={hideSearchBar} hideCallback={hideSearchCallback} />
+                </Suspense>
                 <div className="col-8 pt-1">
                     <AudioPlayer
                         playlist={[...playlist].concat([])}
@@ -40,14 +55,14 @@ const Header = ({ dispatch, playlist }) => {
                 </div>
 
                 <div className="col-4 d-flex justify-content-end align-items-center">
-                    <a className="text-white" href="#">
+                    <NavLink className="text-white" to="#" onClick={openSearchBar}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
                              strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="mx-3" role="img"
                              viewBox="0 0 24 24" focusable="false"><title>Search</title>
                             <circle cx="10.5" cy="10.5" r="7.5"/>
                             <path d="M21 21l-5.2-5.2"/>
                         </svg>
-                    </a>
+                    </NavLink>
 
                     <NavLink exact className="text-link pr-3" activeClassName="text-danger" to="/">Reactify</NavLink>
                     <NavLink exact className="text-link pr-3" activeClassName="text-danger" to="/albums">Albums</NavLink>
